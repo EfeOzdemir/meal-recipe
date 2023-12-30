@@ -48,6 +48,8 @@ def login():
     password = request.json.get('password')
 
     if username is None or password is None:
+        print(username)
+        print(password)
         return {
             "message": "Provide user credentials.",
             "data": None,

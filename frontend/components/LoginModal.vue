@@ -1,5 +1,5 @@
 <template>
-    <DialogRoot v-model:open="show">
+    <DialogRoot v-model:open="show" :modal="true">
         <DialogTrigger as-child>
             <CircleUserRound class="mr-4" />
         </DialogTrigger>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <DialogFooter>
-                <Button type="submit" @click="submit()">
+                <Button type="submit" @click="login">
                     Login
                 </Button>
             </DialogFooter>
@@ -29,8 +29,33 @@
 </template>
 <script setup>
 
+import { useFetch } from '@vueuse/core';
 import { CircleUserRound } from 'lucide-vue-next';
 import { DialogRoot } from 'radix-vue';
 
+const username = ref('')
+const password = ref('')
 
+const userStore = useUserStore()
+const show = ref(false)
+
+const login = async () => {
+    const { data, error } = await useFetch("http://localhost:5000/auth/login", {
+        method: 'post',
+        headers: { 
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({  
+            username: username.value,
+            password: password.value
+        })
+    })
+    
+    if(data) {
+        const response = JSON.parse(data.value)
+        userStore.userToken = response.token
+    }
+
+    show.value = false
+}
 </script>

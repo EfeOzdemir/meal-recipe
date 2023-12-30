@@ -4,10 +4,3 @@
         <LoginModal />
     </header>
 </template>
-
-<script setup>
-import { Button } from '@/components/ui/button'
-
-</script>
-
-<style lang="scss" scoped></style>
