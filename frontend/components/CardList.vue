@@ -1,21 +1,10 @@
 <template>
-  <div v-for="recipe in recipies" :key="recipe.id">
-    <Card :recipe="recipe" />
+  <div class="flex flex-wrap p-10 justify-center">
+    <Card v-for="recipe in recipies" :id="recipe.id" :recipe="recipe" />
   </div>
 </template>
 
 <script setup>
-const recipies = ref([]);
-const getRecipies = async () => {
-  const { data, error } = await useMyFetch("/recipe", {
-    method: "get",
-  });
-
-  if (data) {
-    recipies.value = data.value;
-  }
-};
-getRecipies();
+import { fetchRecipes } from '@/services/fetchs'
+const { data: recipies } = await fetchRecipes()
 </script>
-
-<style lang="scss" scoped></style>

@@ -14,4 +14,7 @@ export default defineNuxtConfig({
       baseURL: "http://localhost:5000",
     },
   },
+  css: [
+    '@fortawesome/fontawesome-svg-core/styles.css'
+  ]
 });

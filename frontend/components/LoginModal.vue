@@ -4,57 +4,61 @@
       <CircleUserRound class="mr-4" />
     </DialogTrigger>
     <DialogContent class="sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>Sign In</DialogTitle>
-      </DialogHeader>
-      <div class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="username" class="text-right"> Username </Label>
-          <Input id="username" v-model="username" class="col-span-3" />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="current" class="text-right">Password</Label>
-          <Input
-            id="current"
-            type="password"
-            v-model="password"
-            class="col-span-3"
-          />
-        </div>
-      </div>
-      <DialogFooter>
-        <Button type="submit" @click="login"> Sign in </Button>
-      </DialogFooter>
-      <DialogHeader>
-        <DialogTitle>Sign up</DialogTitle>
-      </DialogHeader>
-      <div class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="username" class="text-right"> Username </Label>
-          <Input id="username" v-model="usernameRegister" class="col-span-3" />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="current" class="text-right">Password</Label>
-          <Input
-            id="current"
-            type="password"
-            v-model="passwordRegister"
-            class="col-span-3"
-          />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="current" class="text-right">Email</Label>
-          <Input id="current" type="email" v-model="email" class="col-span-3" />
-        </div>
-      </div>
-      <DialogFooter>
-        <Button type="submit" @click="signup"> Sign Up </Button>
-      </DialogFooter>
+      <Tabs default-value="signin">
+        <TabsList>
+          <TabsTrigger value="signin">
+            Sign In
+          </TabsTrigger>
+          <TabsTrigger value="signup">
+            Sign Up
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="signin">
+          <DialogHeader>
+            <DialogTitle>Sign In</DialogTitle>
+          </DialogHeader>
+          <div class="grid gap-4 py-4">
+            <div class="grid grid-cols-4 items-center gap-4">
+              <Label for="username_login" class="text-right"> Username </Label>
+              <Input id="username_login" v-model="username" class="col-span-3" />
+            </div>
+            <div class="grid grid-cols-4 items-center gap-4">
+              <Label for="password_login" class="text-right">Password</Label>
+              <Input id="password_login" type="password" v-model="password" class="col-span-3" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit" @click="login"> Sign in </Button>
+          </DialogFooter>
+        </TabsContent>
+        <TabsContent value="signup">
+          <DialogHeader>
+            <DialogTitle>Sign up</DialogTitle>
+          </DialogHeader>
+          <div class="grid gap-4 py-4">
+            <div class="grid grid-cols-4 items-center gap-4">
+              <Label for="username_register" class="text-right"> Username </Label>
+              <Input id="username_register" v-model="usernameRegister" class="col-span-3" />
+            </div>
+            <div class="grid grid-cols-4 items-center gap-4">
+              <Label for="password_register" class="text-right">Password</Label>
+              <Input id="password_register" type="password" v-model="passwordRegister" class="col-span-3" />
+            </div>
+            <div class="grid grid-cols-4 items-center gap-4">
+              <Label for="email" class="text-right">Email</Label>
+              <Input id="email" type="email" v-model="email" class="col-span-3" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit" @click="signup"> Sign Up </Button>
+          </DialogFooter>
+        </TabsContent>
+      </Tabs>
     </DialogContent>
   </DialogRoot>
 </template>
 <script setup>
-import { useFetch } from "@vueuse/core";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CircleUserRound } from "lucide-vue-next";
 import { DialogRoot } from "radix-vue";
 import { useMyFetch } from "@/composables/useMyFetch";
@@ -93,11 +97,14 @@ const signup = async () => {
     headers: {
       "Content-Type": "application/json",
     },
+    lazy: true,
+    server: false,
     body: JSON.stringify({
       username: usernameRegister.value,
       password: passwordRegister.value,
       email: email.value,
     }),
+
   });
 
   if (data) {

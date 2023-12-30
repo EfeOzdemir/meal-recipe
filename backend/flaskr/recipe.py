@@ -13,13 +13,17 @@ bp = Blueprint('recipe', __name__, url_prefix='/recipe')
 def get_recipes():
     db = get_db()
     recipes = db.execute("""
-        SELECT recipe.id, title, content, category_id, recipe.cre_date, recipe.user_id, username, (SELECT COUNT(*) FROM likes WHERE recipe_id = recipe.id) as likes
+        SELECT recipe.id, title, content, category_id, recipe.cre_date, recipe.user_id, username, category.name as category_name, category_id,
+                         (SELECT COUNT(*) FROM likes WHERE recipe_id = recipe.id) as likes
                         FROM recipe 
-                        LEFT JOIN user ON recipe.user_id = user.id 
-    """).fetchmany()
+                        LEFT JOIN user ON recipe.user_id = user.id
+                        LEFT JOIN category ON recipe.category_id = category.id 
+    """).fetchall()
+
+    print(len(recipes))
     
     return [{"id": row["id"], "title": row["title"], "content": row["content"], 
-            "category_id": row["category_id"], "likes": row["likes"],
+            "category": {"id": row["category_id"], "name": row["category_name"]}, "likes": row["likes"],
              "user": {"id": row["user_id"], "username": row["username"]},
              "cre_date": row["cre_date"]
              } for row in recipes], 200
@@ -211,3 +215,10 @@ def save(user, id):
         db.commit()
 
     return {}, code
+
+@bp.route('/category', methods = ["GET"])
+def categories():
+    db = get_db()
+    categories = db.execute("SELECT * FROM category")
+
+    return [{"id": category["id"], "name": category["name"]} for category in categories]
