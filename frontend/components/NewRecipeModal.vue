@@ -10,11 +10,21 @@
       <div class="grid gap-4 py-4">
         <div class="grid w-full gap-1.5">
           <Label for="title">Title</Label>
-          <Input id="title" type="text" v-model="recipe.title" placeholder="title" />
+          <Input
+            id="title"
+            type="text"
+            v-model="recipe.title"
+            placeholder="title"
+          />
         </div>
         <div class="grid w-full gap-1.5">
           <Label for="content">Content</Label>
-          <Textarea class="h-[150px]" v-model="recipe.content" id="content" placeholder="Type your content here." />
+          <Textarea
+            class="h-[150px]"
+            v-model="recipe.content"
+            id="content"
+            placeholder="Type your content here."
+          />
         </div>
         <div class="grid w-full gap-1.5">
           <Label for="content">Category</Label>
@@ -50,25 +60,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const store = useUserStore()
+const store = useUserStore();
 const show = ref(false);
 const recipe = ref({});
-const categories = ref([])
+const categories = ref([]);
 
 const getCategories = async () => {
-  const getCategories = await $fetch("/recipe/category", {
-    method: "get",
-  });
-
-  categories.value = getCategories
-}
+  const category = await $fetch("http://localhost:5000/recipe/category");
+  categories.value = category;
+  console.log(categories);
+};
 
 const add = async () => {
   await $fetch("http://localhost:5000/recipe/", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer " + store.userToken
+      Authorization: "Bearer " + store.userToken,
     },
     body: JSON.stringify({
       title: recipe.value.title,
@@ -81,7 +89,6 @@ const add = async () => {
 };
 
 onMounted(() => {
-  getCategories()
-})
-
+  getCategories();
+});
 </script>
