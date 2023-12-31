@@ -1,11 +1,8 @@
 <template>
-  <AppHeader />
-  <CardFilter />
-  <CardList />
+  <div class="min-h-screen">
+    <AppHeader />
+    <CardFilter />
+    <CardList />
+  </div>
   <AppFooter />
 </template>
-
-<script setup>
-import AppHeader from './components/AppHeader.vue';
-</script>
-  
