@@ -13,4 +13,5 @@
 <script setup>
 import { fetchRecipes } from "@/services/fetchs";
 const { data: recipies } = await fetchRecipes();
+
 </script>
