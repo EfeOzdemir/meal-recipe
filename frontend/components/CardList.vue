@@ -5,6 +5,11 @@
 </template>
 
 <script setup>
-import { fetchRecipes } from "@/services/fetchs";
-const { data: recipies } = await fetchRecipes();
+const { userToken } = useUserStore();
+const config = useRuntimeConfig();
+const { data: recipies } = await useFetch(request, {
+  key: String(Math.random()),
+  baseURL: config.public.baseURL,
+  headers: { authorization: "Bearer " + userToken },
+});
 </script>
