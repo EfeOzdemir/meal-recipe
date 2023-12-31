@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { useUserStore } from "~/stores/userStore";
+import { useUserStore } from "~/stores/auth";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 const store = useUserStore();
 </script>
