@@ -3,13 +3,14 @@ from flask import (
     Blueprint, request
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from flask_cors import  cross_origin
 from flaskr.db import get_db
 from .token import create_token, token_required
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=['POST'])
+@cross_origin(origin='*')
 def register():
     username = request.json.get('username')
     email = request.json.get('email')
@@ -42,6 +43,7 @@ def register():
     }, 201
 
 @bp.route('/login', methods=['POST'])
+@cross_origin(origin='*')
 def login():
 
     username = request.json.get('username')
