@@ -16,20 +16,11 @@
           <div class="grid gap-4 py-4">
             <div class="grid grid-cols-4 items-center gap-4">
               <Label for="username_login" class="text-right"> Username </Label>
-              <Input
-                id="username_login"
-                v-model="username"
-                class="col-span-3"
-              />
+              <Input id="username_login" v-model="username" class="col-span-3" />
             </div>
             <div class="grid grid-cols-4 items-center gap-4">
               <Label for="password_login" class="text-right">Password</Label>
-              <Input
-                id="password_login"
-                type="password"
-                v-model="password"
-                class="col-span-3"
-              />
+              <Input id="password_login" type="password" v-model="password" class="col-span-3" />
             </div>
           </div>
           <DialogFooter>
@@ -45,29 +36,15 @@
               <Label for="username_register" class="text-right">
                 Username
               </Label>
-              <Input
-                id="username_register"
-                v-model="usernameRegister"
-                class="col-span-3"
-              />
+              <Input id="username_register" v-model="usernameRegister" class="col-span-3" />
             </div>
             <div class="grid grid-cols-4 items-center gap-4">
               <Label for="password_register" class="text-right">Password</Label>
-              <Input
-                id="password_register"
-                type="password"
-                v-model="passwordRegister"
-                class="col-span-3"
-              />
+              <Input id="password_register" type="password" v-model="passwordRegister" class="col-span-3" />
             </div>
             <div class="grid grid-cols-4 items-center gap-4">
               <Label for="email" class="text-right">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                v-model="email"
-                class="col-span-3"
-              />
+              <Input id="email" type="email" v-model="email" class="col-span-3" />
             </div>
           </div>
           <DialogFooter>
@@ -107,8 +84,6 @@ const signup = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    lazy: true,
-    server: false,
     body: JSON.stringify({
       username: usernameRegister.value,
       password: passwordRegister.value,
@@ -117,9 +92,7 @@ const signup = async () => {
   });
 
   if (data) {
-    username.value = usernameRegister.value;
-    password.value = passwordRegister.value;
-    await login();
+    await login(usernameRegister.value, passwordRegister.value);
   }
 
   show.value = false;

@@ -3,7 +3,6 @@
     <div class="flex items-center space-x-2">
       <span>Filter Category</span>
       <span>Filter Ingredient</span>
-      <span>{{ store?.userToken }}</span>
     </div>
     <NewRecipeModal v-if="store?.userToken" />
   </div>

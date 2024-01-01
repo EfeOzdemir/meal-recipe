@@ -5,11 +5,5 @@
 </template>
 
 <script setup>
-const { userToken } = useUserStore();
-const config = useRuntimeConfig();
-const { data: recipies } = await useFetch(request, {
-  key: String(Math.random()),
-  baseURL: config.public.baseURL,
-  headers: { authorization: "Bearer " + userToken },
-});
+const { data: recipies } = await useFetch("http://localhost:5000/recipe/");
 </script>

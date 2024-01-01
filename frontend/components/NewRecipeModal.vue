@@ -1,6 +1,6 @@
 <template>
   <DialogRoot v-model:open="show" :modal="true">
-    <DialogTrigger as-child>
+    <DialogTrigger as-child @click="getCategories">
       <Button>Add</Button>
     </DialogTrigger>
     <DialogContent>
@@ -10,21 +10,11 @@
       <div class="grid gap-4 py-4">
         <div class="grid w-full gap-1.5">
           <Label for="title">Title</Label>
-          <Input
-            id="title"
-            type="text"
-            v-model="recipe.title"
-            placeholder="title"
-          />
+          <Input id="title" type="text" v-model="recipe.title" placeholder="title" />
         </div>
         <div class="grid w-full gap-1.5">
           <Label for="content">Content</Label>
-          <Textarea
-            class="h-[150px]"
-            v-model="recipe.content"
-            id="content"
-            placeholder="Type your content here."
-          />
+          <Textarea class="h-[150px]" v-model="recipe.content" id="content" placeholder="Type your content here." />
         </div>
         <div class="grid w-full gap-1.5">
           <Label for="content">Category</Label>
@@ -68,16 +58,12 @@ const categories = ref([]);
 const getCategories = async () => {
   const category = await $fetch("http://localhost:5000/recipe/category");
   categories.value = category;
-  console.log(categories);
 };
 
 const add = async () => {
   await $fetch("http://localhost:5000/recipe/", {
     method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + store.userToken,
-    },
+    headers: { authorization: "Bearer " + store.userToken },
     body: JSON.stringify({
       title: recipe.value.title,
       content: recipe.value.content,
@@ -86,9 +72,6 @@ const add = async () => {
     }),
   });
   show.value = false;
+  window.location.reload()
 };
-
-onMounted(() => {
-  getCategories();
-});
 </script>
