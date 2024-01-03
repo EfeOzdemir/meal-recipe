@@ -43,11 +43,20 @@ def get_recipe(id):
             "error": "Not found"
         }, 404
     
+    comments = db.execute("SELECT comments.id, content, cre_date, user_id, user.username as username FROM comments LEFT JOIN user ON user_id = user.id WHERE recipe_id = ?", (id)).fetchall()
+    
     return {"id": recipe["id"], "title": recipe["title"], "content": recipe["content"], 
             "category_id": recipe["category_id"], "likes": recipe["likes"],
              "user": {"id": recipe["user_id"], "username": recipe["username"]},
-             "cre_date": recipe["cre_date"]
-             } , 200
+             "cre_date": recipe["cre_date"], 
+             "comments": [
+                    {"id": comment["id"], "content": comment["content"], "cre_date": comment["cre_date"], 
+                    "user": {
+                    "id": comment["user_id"],
+                    "username": comment["username"]
+                        }
+                    } for comment in comments]
+            } , 200
 
 @bp.route('/', methods=["POST"])
 @token_required

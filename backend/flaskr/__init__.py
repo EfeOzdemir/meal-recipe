@@ -32,8 +32,9 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import auth, recipe
+    from . import auth, recipe, admin
     app.register_blueprint(auth.bp)
     app.register_blueprint(recipe.bp)
+    app.register_blueprint(admin.bp)
 
     return app
