@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@pinia/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@pinia/nuxt", 'nuxt-primevue'],
   shadcn: {
     prefix: "",
     componentDir: "./components/ui",
@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    '@fortawesome/fontawesome-svg-core/styles.css'
-  ]
+    "@fortawesome/fontawesome-svg-core/styles.css",
+    "~/assets/css/main.css",
+  ],
 });

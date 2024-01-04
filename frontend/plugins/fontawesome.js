@@ -1,7 +1,7 @@
 // For Nuxt 3
 import { library, config } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faHeart, faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faBookmark, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart as faHeartRegular,
   faBookmark as faBookmarkRegular,
@@ -16,6 +16,7 @@ library.add(faHeart);
 library.add(faBookmark);
 library.add(faHeartRegular);
 library.add(faBookmarkRegular);
+library.add(faEllipsis);
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon, {});
