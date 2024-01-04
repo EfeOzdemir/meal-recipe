@@ -25,31 +25,31 @@
       <div class="space-x-2">
         <ClientOnly>
           <font-awesome-icon
-            v-if="!like"
-            @click="like = !like"
+            v-if="!liked"
+            @click="like()"
             icon="fa-regular fa-heart"
           />
 
           <font-awesome-icon
-            v-if="like"
-            @click="like = !like"
+            v-if="liked"
+            @click="like()"
             icon="fa-solid fa-heart"
           />
           <font-awesome-icon
-            v-if="!save"
-            @click="save = !save"
+            v-if="!saved"
+            @click="save()"
             icon="fa-regular fa-bookmark"
           />
           <font-awesome-icon
-            v-if="save"
-            @click="save = !save"
+            v-if="saved"
+            @click="save()"
             icon="fa-solid fa-bookmark"
           />
         </ClientOnly>
       </div>
     </div>
     <Button color-scheme="green" class="mt-3 w-[320px] h-10 u-center">
-      <span class="font-semibold text-base">Details</span>
+      <NuxtLink :to="`/${recipe.id}`">Detail</NuxtLink>
     </Button>
   </div>
 </template>
@@ -62,10 +62,26 @@ export default {
       required: true,
     },
   },
-  setup() {
-    const like = ref(false);
-    const save = ref(false);
-    return { like, save };
+  setup(props) {
+    const liked = ref(false);
+    const saved = ref(false);
+    const store = useUserStore();
+
+    const like = async () => {
+      await $fetch("http://localhost:5000/recipe/like/" + props.recipe.id, {
+        method: "post",
+        headers: { authorization: "Bearer " + store.userToken },
+      });
+      liked.value = !liked.value;
+    };
+    const save = async () => {
+      await $fetch("http://localhost:5000/recipe/save/" + props.recipe.id, {
+        method: "post",
+        headers: { authorization: "Bearer " + store.userToken },
+      });
+      saved.value = !saved.value;
+    };
+    return { liked, saved, like, save };
   },
 };
 </script>
