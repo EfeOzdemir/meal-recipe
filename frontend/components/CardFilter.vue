@@ -4,21 +4,6 @@
     style="background-color: #d8d3cd"
   >
     <div class="flex items-center space-x-2">
-      <Select>
-        <SelectTrigger class="w-[180px]">
-          <SelectValue placeholder="Select a category" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Fruits</SelectLabel>
-            <SelectItem value="apple"> Apple </SelectItem>
-            <SelectItem value="banana"> Banana </SelectItem>
-            <SelectItem value="blueberry"> Blueberry </SelectItem>
-            <SelectItem value="grapes"> Grapes </SelectItem>
-            <SelectItem value="pineapple"> Pineapple </SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
       <SelectRoot v-model="category_id">
         <SelectTrigger class="w-[180px]">
           <SelectValue placeholder="Select a category" />
@@ -31,7 +16,11 @@
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-      <Button class="w-32 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md" type="submit" @click="filter">
+      <Button
+        class="w-32 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md"
+        type="submit"
+        @click="filter"
+      >
         Apply Filter
       </Button>
     </div>
@@ -56,7 +45,6 @@ const category_id = ref();
 const categories = await $fetch("http://127.0.0.1:5000/recipe/category");
 
 const filter = async () => {
-  await navigateTo('?c=' + category_id.value)
-}
-
+  await navigateTo("?c=" + category_id.value);
+};
 </script>
