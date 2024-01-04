@@ -74,11 +74,21 @@ const email = ref("");
 const show = ref(false);
 
 const close = () => {
+  if (!username.value || !password.value) {
+    alert("Fill empty fields.")
+    return
+  }
   login(username.value, password.value);
   show.value = false;
 };
 
 const signup = async () => {
+
+  if (!usernameRegister.value || !passwordRegister.value || !email.value) {
+    alert("Fill empty fields.")
+    return
+  }
+
   const { data, error } = await useMyFetch("/auth/register", {
     method: "post",
     headers: {

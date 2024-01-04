@@ -3,10 +3,7 @@
     <PopoverTrigger as-child>
       <div class="flex space-x-10 mr-10 items-center">
         <Avatar>
-          <AvatarImage
-            src="https://github.com/radix-vue.png"
-            alt="@radix-vue"
-          />
+          <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </div>
