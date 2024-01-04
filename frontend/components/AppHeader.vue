@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center justify-between h-16 border-b px-40">
+  <header class="flex items-center justify-between h-16 border-b px-40 bg-[#AFC8AD]">
     <span class="mx-4 font-bold text-3xl">COOK</span>
     <LoginModal v-if="!store.userToken" />
     <div v-else class="flex space-x-10 mr-10 items-center">
