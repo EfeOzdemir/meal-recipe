@@ -16,7 +16,11 @@
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-      <Button class="w-32 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md" type="submit" @click="filter">
+      <Button
+        class="w-32 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md"
+        type="submit"
+        @click="filter"
+      >
         Apply Filter
       </Button>
     </div>
@@ -41,7 +45,6 @@ const category_id = ref();
 const categories = await $fetch("http://127.0.0.1:5000/recipe/category");
 
 const filter = async () => {
-  await navigateTo('?c=' + category_id.value)
-}
-
+  await navigateTo("?c=" + category_id.value);
+};
 </script>
