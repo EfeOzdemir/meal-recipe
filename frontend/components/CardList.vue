@@ -12,4 +12,5 @@ const { data } = await useAsyncData("recipe", () =>
   $fetch("http://127.0.0.1:5000/recipe/")
 );
 const recipies = data;
+console.log(recipies)
 </script>

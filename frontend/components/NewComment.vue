@@ -37,5 +37,6 @@ const send = async () => {
       content: content.value,
     }),
   });
+  window.location.reload()
 };
 </script>
