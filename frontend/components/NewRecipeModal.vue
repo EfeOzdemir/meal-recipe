@@ -1,7 +1,10 @@
 <template>
   <DialogRoot v-model:open="show" :modal="true">
     <DialogTrigger as-child @click="getCategories">
-      <Button>Add</Button>
+      <Button
+        class="w-16 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md"
+        >Add</Button
+      >
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
@@ -10,11 +13,21 @@
       <div class="grid gap-4 py-4">
         <div class="grid w-full gap-1.5">
           <Label for="title">Title</Label>
-          <Input id="title" type="text" v-model="recipe.title" placeholder="title" />
+          <Input
+            id="title"
+            type="text"
+            v-model="recipe.title"
+            placeholder="title"
+          />
         </div>
         <div class="grid w-full gap-1.5">
           <Label for="content">Content</Label>
-          <Textarea class="h-[150px]" v-model="recipe.content" id="content" placeholder="Type your content here." />
+          <Textarea
+            class="h-[150px]"
+            v-model="recipe.content"
+            id="content"
+            placeholder="Type your content here."
+          />
         </div>
         <div class="grid w-full gap-1.5">
           <Label for="content">Category</Label>
@@ -72,6 +85,6 @@ const add = async () => {
     }),
   });
   show.value = false;
-  window.location.reload()
+  window.location.reload();
 };
 </script>

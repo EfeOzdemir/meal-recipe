@@ -9,9 +9,9 @@
       class="w-[320px] h-[320px] rounded-md"
     />
     <div
-      class="categories flex flex-row justify-center space-x-2 text-center text-[#A5A5A5] font-bold text-xs mt-4 u-center"
+      class="categories flex flex-row justify-center space-x-2 text-center text-[#A5A5A5] font-bold text-xs mt-4"
     >
-      <div class="border border-[#E6E6E6] rounded h-[22px] px-2 u-center">
+      <div class="flex border border-[#E6E6E6] rounded h-[22px] px-2 items-center ">
         {{ recipe.category.name || "category" }}
       </div>
     </div>
@@ -49,9 +49,7 @@
       </div>
     </div>
     <NuxtLink :to="`/${recipe.id}`">
-      <Button color-scheme="green" class="mt-3 w-[320px] h-10 u-center">
-        Detail
-      </Button>
+      <Button class="mt-3 w-[320px] h-10 items-center justify-center bg-[#EEE2DE] rounded-md font-bold"> Detail </Button>
     </NuxtLink>
   </div>
 </template>

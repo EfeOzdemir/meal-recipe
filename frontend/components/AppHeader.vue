@@ -2,7 +2,7 @@
   <header
     class="flex items-center justify-between h-16 border-b px-40 bg-[#B31312]"
   >
-    <span class="mx-4 font-bold text-3xl">COOK</span>
+    <span class="mx-4 font-bold text-3xl text-[#FAF6F0]">COOK</span>
     <LoginModal v-if="!store.userToken" />
     <div v-else class="flex space-x-10 mr-10 items-center">
       <Avatar>

@@ -31,7 +31,11 @@
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-      <Button type="submit" @click="$emit('filter', category_id)">
+      <Button
+        class="w-32 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md"
+        type="submit"
+        @click="$emit('filter', category_id)"
+      >
         Apply Filter
       </Button>
     </div>
