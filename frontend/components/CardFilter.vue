@@ -25,17 +25,13 @@
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem v-for="category in categories" value="category.id">
-              category.name
+            <SelectItem v-for="category in categories" :value="category.id">
+              {{ category.name }}
             </SelectItem>
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-      <Button
-        class="w-32 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md"
-        type="submit"
-        @click="$emit('filter', category_id)"
-      >
+      <Button class="w-32 h-10 items-center justify-center bg-[#3D3B40] text-[#FAF6F0] rounded-md" type="submit" @click="filter">
         Apply Filter
       </Button>
     </div>
@@ -58,5 +54,9 @@ const store = useUserStore();
 const category_id = ref();
 
 const categories = await $fetch("http://127.0.0.1:5000/recipe/category");
-console.log(categories);
+
+const filter = async () => {
+  await navigateTo('?c=' + category_id.value)
+}
+
 </script>

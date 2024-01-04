@@ -12,15 +12,25 @@ bp = Blueprint('recipe', __name__, url_prefix='/recipe')
 @bp.route('/', methods=["GET"])
 def get_recipes():
     db = get_db()
-    recipes = db.execute("""
-        SELECT recipe.id, title, content, category_id, recipe.cre_date, recipe.user_id, username, category.name as category_name, category_id,
-                         (SELECT COUNT(*) FROM likes WHERE recipe_id = recipe.id) as likes
-                        FROM recipe 
-                        LEFT JOIN user ON recipe.user_id = user.id
-                        LEFT JOIN category ON recipe.category_id = category.id 
-    """).fetchall()
+    args = request.args
 
-    print(len(recipes))
+    if(args.get('c') is None):
+        recipes = db.execute("""
+            SELECT recipe.id, title, content, category_id, recipe.cre_date, recipe.user_id, username, category.name as category_name, category_id,
+                            (SELECT COUNT(*) FROM likes WHERE recipe_id = recipe.id) as likes
+                            FROM recipe 
+                            LEFT JOIN user ON recipe.user_id = user.id
+                            LEFT JOIN category ON recipe.category_id = category.id 
+            """).fetchall()
+    else:
+        recipes = db.execute("""
+            SELECT recipe.id, title, content, category_id, recipe.cre_date, recipe.user_id, username, category.name as category_name, category_id,
+                            (SELECT COUNT(*) FROM likes WHERE recipe_id = recipe.id) as likes
+                            FROM recipe 
+                            LEFT JOIN user ON recipe.user_id = user.id
+                            LEFT JOIN category ON recipe.category_id = category.id 
+                            WHERE category_id = ?
+        """, (args.get('c'))).fetchall()
     
     return [{"id": row["id"], "title": row["title"], "content": row["content"], 
             "category": {"id": row["category_id"], "name": row["category_name"]}, "likes": row["likes"],
