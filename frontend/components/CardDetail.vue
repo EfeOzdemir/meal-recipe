@@ -57,7 +57,7 @@
     <CommentList :comments="recipe?.comments" />
     <ClientOnly>
       <CommentList :comments="recipe?.comments" />
-      <NewComment :id="recipe?.id" />
+      <NewComment :id="recipe?.id" v-if="store.userToken" @get="getDetails"/>
     </ClientOnly>
   </div>
 </template>
@@ -65,16 +65,17 @@
 <script>
 export default {
   setup() {
+    const store = useUserStore()
     const route = useRoute();
     const slug = route.params.id;
+    
     const { data: recipe } = useAsyncData(
       slug,
       async () => await $fetch("http://127.0.0.1:5000/recipe/" + slug)
     );
-    console.log(recipe);
+
     const liked = ref(false);
     const saved = ref(false);
-    const store = useUserStore();
 
     const like = async () => {
       await $fetch("http://localhost:5000/recipe/like/" + slug, {
@@ -91,7 +92,7 @@ export default {
       saved.value = !saved.value;
     };
     console.log(recipe);
-    return { like, save, liked, saved, recipe };
+    return { like, save, liked, saved, recipe, store };
   },
 };
 </script>

@@ -74,6 +74,11 @@ const getCategories = async () => {
 };
 
 const add = async () => {
+
+  if(!recipe.value.title || !recipe.value.content || !recipe.value.category_id) {
+    alert("Fill empty fields.")
+  }
+
   await $fetch("http://localhost:5000/recipe/", {
     method: "post",
     headers: { authorization: "Bearer " + store.userToken },

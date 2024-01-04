@@ -21,7 +21,7 @@
         </div>
         <div class="flex">
           <div class="items-center">
-            <Button @click="logout()">Çıkış yap</Button>
+            <Button @click="logout_">Çıkış yap</Button>
           </div>
         </div>
       </div>
@@ -42,4 +42,9 @@ import { Button } from "./ui/button";
 import { useUserStore } from "@/stores/auth";
 
 const { logout, user } = useUserStore();
+
+const logout_ = () => {
+  logout()
+  window.location.reload()
+}
 </script>
