@@ -72,3 +72,4 @@ CREATE TABLE comments (
 );
 
 INSERT INTO category (name) VALUES ("test");
+INSERT INTO category (name) VALUES ("test2");
