@@ -4,21 +4,6 @@
     style="background-color: #d8d3cd"
   >
     <div class="flex items-center space-x-2">
-      <Select>
-        <SelectTrigger class="w-[180px]">
-          <SelectValue placeholder="Select a category" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Fruits</SelectLabel>
-            <SelectItem value="apple"> Apple </SelectItem>
-            <SelectItem value="banana"> Banana </SelectItem>
-            <SelectItem value="blueberry"> Blueberry </SelectItem>
-            <SelectItem value="grapes"> Grapes </SelectItem>
-            <SelectItem value="pineapple"> Pineapple </SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
       <SelectRoot v-model="category_id">
         <SelectTrigger class="w-[180px]">
           <SelectValue placeholder="Select a category" />

@@ -161,3 +161,17 @@ def update_recipe(id):
         }, 409
     
     return {}, 204
+
+@bp.route('/infos', methods = ["GET"])
+def get_infos():
+    db = get_db()
+    infos = db.execute("SELECT category.name as category_name, count(*) as count FROM recipe LEFT JOIN category ON category_id = category.id GROUP BY category_id").fetchall()
+
+    return [{"category_name": info["category_name"], "count": info["count"]} for info in infos], 200
+
+@bp.route('/infos/comment', methods = ["GET"])
+def get_recipe_comment_infos():
+    db = get_db()
+    infos = db.execute("SELECT recipe.title as recipe_title, count(*) as count FROM comments LEFT JOIN recipe ON recipe_id = recipe.id GROUP BY recipe_id").fetchall()
+
+    return [{"recipe_name": info["recipe_title"], "count": info["count"]} for info in infos], 200
