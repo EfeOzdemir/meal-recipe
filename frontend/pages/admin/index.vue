@@ -1,11 +1,11 @@
 <template>
     <Header />
     <h2 class="text-center text-5xl font-bold mt-10">Info Charts</h2>
-    <div class="grid grid-cols-2 mt-10">
-        <div class="chart m-auto" v-if="!loading">
-            <Bar :data="info" :options="options" />
+    <div class="flex justify-center mt-10 space-x-48">
+        <div v-if="!loading">
+            <Bar :data="info" :options="options" width="500" />
         </div>
-        <div class="chart m-auto" v-if="!loading">
+        <div v-if="!loading">
             <Bar :data="comments" :options="options" />
         </div>
     </div>

@@ -34,14 +34,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleUserRound } from "lucide-vue-next";
 import { Button } from "./ui/button";
 import { useUserStore } from "@/stores/auth";
 
 const { logout, user } = useUserStore();
 
-const logout_ = () => {
+const logout_ = async () => {
   logout()
-  window.location.reload()
+  window.location.href = '/' 
 }
 </script>

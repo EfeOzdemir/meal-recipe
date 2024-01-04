@@ -26,16 +26,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 const props = defineProps(["id"]);
-
+const emit = defineEmits(['newcomment'])
 const store = useUserStore();
 const content = ref("");
 const send = async () => {
-  await $fetch("http://localhost:5000/recipe/comment/" + props.id, {
+  const data = await $fetch("http://localhost:5000/recipe/comment/" + props.id, {
     method: "post",
     headers: { authorization: "Bearer " + store.userToken },
     body: JSON.stringify({
       content: content.value,
     }),
   });
+  emit("newcomment", data)
+  content.value = ""
 };
 </script>

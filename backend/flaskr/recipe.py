@@ -179,15 +179,25 @@ def comment(user, id):
 
     content = request.json.get('content')
     try:
-        db.execute("INSERT INTO comments (recipe_id, user_id, content, cre_date) VALUES (?, ?, ?, ?)", (id, user['id'], content, datetime.datetime.now()))
+        cre_date = datetime.datetime.now()
+        cursor = db.execute("INSERT INTO comments (recipe_id, user_id, content, cre_date) VALUES (?, ?, ?, ?)", (id, user['id'], content, cre_date))
         db.commit()
+        comment = {
+            "id": cursor.lastrowid,
+            "cre_date": cre_date,
+            "content": content,
+            "user": {
+                "id": user["id"],
+                "username": user["username"]
+            }
+        }
     except db.IntegrityError:
         return {
             "message": "Invalid values.",
             "error": "conflict"
         }, 409
 
-    return {}, 201
+    return comment, 201
 
 @bp.route('/like/<id>', methods = ["POST"])
 @token_required
