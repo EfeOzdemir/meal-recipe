@@ -10,15 +10,15 @@
     >
       {{ recipe?.categories }}
     </div>
-    <h3 class="text-xl font-bold text-center mt-3 bg-red-300 py-5">
+    <h3 class="text-xl font-bold text-center mt-3 bg-[#EEE2DE] py-5">
       {{ recipe?.title }}
     </h3>
-    <h4 class="text-left mt-3">
-      Writer:
+    <h4 class="text-left text-lg mt-3">
+      <span class="font-bold ">Writer:</span>
       {{ recipe?.user.username }}
     </h4>
-    <h4 class="text-left mt-3">
-      Creation Date:
+    <h4 class="text-left mt-3 text-lg">
+      <span class="font-bold ">Creation Date:</span>
       {{ recipe?.cre_date.split(" ")[0] }}
     </h4>
     <div class="flex justify-end">
@@ -49,7 +49,7 @@
       </div>
     </div>
     <div>
-      {{ recipe?.title }} Nasıl Yapılır?
+      <span class="font-bold text-xl">{{ recipe?.title }} Nasıl Yapılır?</span>
       <br />
       <br />
       {{ recipe?.content }}

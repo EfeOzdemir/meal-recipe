@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="bg-[#F3EEEA]">
+    <AppHeader />
     <div class="min-h-screen max-w-[1400px] mx-auto">
-      <AppHeader />
       <CardList />
     </div>
-    <AppFooter />
+    <AppFooter class="bg-[#D8D3CD]" />
   </div>
 </template>
 

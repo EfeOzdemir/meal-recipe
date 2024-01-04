@@ -48,9 +48,11 @@
         </ClientOnly>
       </div>
     </div>
-    <Button color-scheme="green" class="mt-3 w-[320px] h-10 u-center">
-      <NuxtLink :to="`/${recipe.id}`">Detail</NuxtLink>
-    </Button>
+    <NuxtLink :to="`/${recipe.id}`">
+      <Button color-scheme="green" class="mt-3 w-[320px] h-10 u-center">
+        Detail
+      </Button>
+    </NuxtLink>
   </div>
 </template>
 
