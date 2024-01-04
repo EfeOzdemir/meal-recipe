@@ -1,29 +1,20 @@
 <template>
-  <div class="relative todo-fragment">
+  <div class="relative">
     <div class="flex">
-      <Button pure class="h-11">
-        <Avatar>
-          <AvatarImage
-            src="https://github.com/radix-vue.png"
-            alt="@radix-vue"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </Button>
       <div class="ml-4 comment-width">
-        <header
+        <div
           class="font-bold text-md flex items-center justify-between mb-1"
         >
           <div class="w-full flex items-center">
-            {{ comment.user?.username }}
+            {{ comment?.user?.username }}
           </div>
-        </header>
+        </div>
         <p class="text-sm leading-18 sm:text-md sm:leading-22 break-words">
-          {{ comment.content }}
+          {{ comment?.content }}
         </p>
         <div class="text-sm font-medium flex items-center mt-2">
           <time class="text-primary-300 text-sm font-medium ml-auto">{{
-            comment.cre_date
+            comment?.cre_date
           }}</time>
         </div>
       </div>
@@ -32,8 +23,15 @@
 </template>
 
 <script>
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { AvatarRoot } from 'radix-vue';
+
 export default defineComponent({
-  props: ["comment"],
+    props: ["comment"],
+    components: { AvatarRoot, Avatar, AvatarFallback, AvatarImage },
+    setup(props) {
+      console.log(props.comment)
+    }
 });
 </script>
 

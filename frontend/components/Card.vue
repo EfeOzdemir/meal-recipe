@@ -55,7 +55,10 @@
 </template>
 
 <script>
+import { Button } from "@/components/ui/button";
+
 export default {
+  components: [Button],
   props: {
     recipe: {
       type: Object,

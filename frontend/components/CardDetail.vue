@@ -1,13 +1,9 @@
 <template>
   <div class="max-w-[1100px] mx-auto">
-    <img
-      loading="lazy"
-      src="https://i.nefisyemektarifleri.com/2023/12/27/pismeyen-tart-pasta.jpg"
-      class="rounded-md mx-auto mt-8"
-    />
+    <img loading="lazy" src="https://i.nefisyemektarifleri.com/2023/12/27/pismeyen-tart-pasta.jpg"
+      class="rounded-md mx-auto mt-8" />
     <div
-      class="categories flex flex-row justify-center space-x-2 text-center text-[#A5A5A5] font-bold text-xs mt-4 u-center"
-    >
+      class="categories flex flex-row justify-center space-x-2 text-center text-[#A5A5A5] font-bold text-xs mt-4 u-center">
       {{ recipe?.categories }}
     </div>
     <h3 class="text-xl font-bold text-center mt-3 bg-red-300 py-5">
@@ -24,38 +20,16 @@
     <div class="flex justify-end">
       <div class="space-x-2">
         <ClientOnly>
-          <font-awesome-icon
-            v-if="!liked"
-            @click="like"
-            icon="fa-regular fa-heart"
-          />
+          <font-awesome-icon v-if="!liked" @click="like" icon="fa-regular fa-heart" />
 
-          <font-awesome-icon
-            v-if="liked"
-            @click="like"
-            icon="fa-solid fa-heart"
-          />
-          <font-awesome-icon
-            v-if="!saved"
-            @click="save"
-            icon="fa-regular fa-bookmark"
-          />
-          <font-awesome-icon
-            v-if="saved"
-            @click="save"
-            icon="fa-solid fa-bookmark"
-          />
+          <font-awesome-icon v-if="liked" @click="like" icon="fa-solid fa-heart" />
+          <font-awesome-icon v-if="!saved" @click="save" icon="fa-regular fa-bookmark" />
+          <font-awesome-icon v-if="saved" @click="save" icon="fa-solid fa-bookmark" />
         </ClientOnly>
       </div>
     </div>
-    <div>
-      {{ recipe?.title }} Nasıl Yapılır?
-      <br />
-      <br />
-      {{ recipe?.content }}
-    </div>
-    <CommentList :comments="recipe?.comments" />
     <ClientOnly>
+      <CommentList :comments="recipe?.comments" />
       <NewComment :id="recipe?.id" />
     </ClientOnly>
   </div>
@@ -70,6 +44,7 @@ export default {
       slug,
       async () => await $fetch("http://127.0.0.1:5000/recipe/" + slug)
     );
+    console.log(recipe)
     const liked = ref(false);
     const saved = ref(false);
     const store = useUserStore();
