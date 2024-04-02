@@ -35,7 +35,6 @@
     </div>
     <CommentList :comments="recipe?.comments" />
     <ClientOnly>
-      <CommentList :comments="recipe?.comments" />
       <NewComment :id="recipe?.id" v-if="store.userToken" @newcomment="newComment" />
     </ClientOnly>
   </div>
@@ -50,21 +49,23 @@ export default {
 
     const { data: recipe } = useAsyncData(
       slug,
-      async () => await $fetch("http://127.0.0.1:5000/recipe/" + slug)
+      async () => await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/" + slug)
     );
+
+    console.log(recipe.value)
 
     const liked = ref(false);
     const saved = ref(false);
 
     const like = async () => {
-      await $fetch("http://localhost:5000/recipe/like/" + slug, {
+      await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/like/" + slug, {
         method: "post",
         headers: { authorization: "Bearer " + store.userToken },
       });
       liked.value = !liked.value;
     };
     const save = async () => {
-      await $fetch("http://localhost:5000/recipe/save/" + slug, {
+      await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/save/" + slug, {
         method: "post",
         headers: { authorization: "Bearer " + store.userToken },
       });
@@ -72,7 +73,7 @@ export default {
     };
 
     const newComment = (data) => {
-      recipe.value.comments.push(data)
+      window.location.reload(true)
     }
 
     return { like, save, liked, saved, recipe, store, newComment };

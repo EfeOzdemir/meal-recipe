@@ -30,7 +30,7 @@ const emit = defineEmits(['newcomment'])
 const store = useUserStore();
 const content = ref("");
 const send = async () => {
-  const data = await $fetch("http://localhost:5000/recipe/comment/" + props.id, {
+  const data = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/comment/" + props.id, {
     method: "post",
     headers: { authorization: "Bearer " + store.userToken },
     body: JSON.stringify({

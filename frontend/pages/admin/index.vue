@@ -24,7 +24,7 @@ const comments = ref({})
 const loading = ref(true)
 
 const getInfo = async () => {
-    const data = await $fetch('http://localhost:5000/admin/infos')
+    const data = await $fetch('https://hopeful-vim-417109.oa.r.appspot.com/admin/infos')
     info.value.labels = []
     info.value.datasets = [{
         label: 'Category Counts', data: [], backgroundColor: [
@@ -55,7 +55,7 @@ const getInfo = async () => {
 }
 
 const getComments = async () => {
-    const data = await $fetch('http://localhost:5000/admin/infos/comment')
+    const data = await $fetch('https://hopeful-vim-417109.oa.r.appspot.com/admin/infos/comment')
     comments.value.labels = []
     comments.value.datasets = [{
         label: 'Comment Counts', data: [], backgroundColor: [

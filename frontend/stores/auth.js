@@ -5,12 +5,14 @@ export const useUserStore = defineStore("user", () => {
   const cookie = useCookie("token", {
     maxAge: 60 * 60 * 24 * 30,
   });
+
   if (cookie.value) {
     userToken.value = cookie.value;
     isLoggedin.value = true;
   }
+  
   const login = async (username, password) => {
-    const response = await $fetch("http://localhost:5000/auth/login", {
+    const response = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/auth/login", {
       method: "POST",
       body: {
         username: username,

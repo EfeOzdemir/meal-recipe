@@ -42,7 +42,7 @@ import Header from '~/components/admin/Header.vue';
 
 const user = ref({})
 const save = async () => {
-    await $fetch("http://localhost:5000/auth/register", {
+    await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/auth/register", {
         method: "post",
         body: JSON.stringify(user.value)
     })

@@ -63,12 +63,12 @@ import Button from '../ui/button/Button.vue';
 const users = ref([])
 
 const getUsers = async () => {
-    const data = await $fetch('http://localhost:5000/admin/users')
+    const data = await $fetch('https://hopeful-vim-417109.oa.r.appspot.com/admin/users')
     users.value = data
 }
 
 const deleteUser = async (id) => {
-    await $fetch('http://localhost:5000/admin/user/delete/' + id, { method: "DELETE" })
+    await $fetch('https://hopeful-vim-417109.oa.r.appspot.com/admin/user/delete/' + id, { method: "DELETE" })
     getUsers()
 }
 

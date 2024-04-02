@@ -65,12 +65,12 @@ const recipe = ref({})
 const categories = ref([])
 
 const getRecipe = async () => {
-    const data = await $fetch("http://localhost:5000/recipe/" + id)
+    const data = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/" + id)
     recipe.value = data
 }
 
 const save = async () => {
-    await $fetch("http://localhost:5000/admin/recipe/edit/" + id, {
+    await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/admin/recipe/edit/" + id, {
         method: "post",
         body: JSON.stringify(recipe.value)
     })
@@ -78,7 +78,7 @@ const save = async () => {
 }
 
 const getCategories = async () => {
-    const categoriesData = await $fetch("http://localhost:5000/recipe/category")
+    const categoriesData = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/category")
     categories.value = categoriesData
 }
 

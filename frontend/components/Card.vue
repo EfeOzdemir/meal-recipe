@@ -49,14 +49,14 @@ export default {
     const store = useUserStore();
 
     const like = async () => {
-      await $fetch("http://localhost:5000/recipe/like/" + props.recipe.id, {
+      await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/like/" + props.recipe.id, {
         method: "post",
         headers: { authorization: "Bearer " + store.userToken },
       });
       liked.value = !liked.value;
     };
     const save = async () => {
-      await $fetch("http://localhost:5000/recipe/save/" + props.recipe.id, {
+      await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/save/" + props.recipe.id, {
         method: "post",
         headers: { authorization: "Bearer " + store.userToken },
       });

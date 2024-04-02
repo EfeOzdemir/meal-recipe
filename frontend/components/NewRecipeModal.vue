@@ -56,7 +56,7 @@ const recipe = ref({});
 const categories = ref([]);
 
 const getCategories = async () => {
-  const category = await $fetch("http://localhost:5000/recipe/category");
+  const category = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/category");
   categories.value = category;
 };
 
@@ -67,14 +67,14 @@ const add = async () => {
     return
   }
 
-  await $fetch("http://localhost:5000/recipe/", {
+  await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/", {
     method: "post",
     headers: { authorization: "Bearer " + store.userToken },
     body: JSON.stringify({
       title: recipe.value.title,
       content: recipe.value.content,
       category_id: recipe.value.category_id,
-      ingredients: [1],
+      ingredients: ["su"],
     }),
   });
   show.value = false;

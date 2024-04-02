@@ -15,6 +15,6 @@ const c = route.query.c;
 const categoryFilter = c ? "?c=" + c : ""
 console.log(route.query.c)
 const { data } = await useAsyncData("recipe", () =>
-  $fetch("http://127.0.0.1:5000/recipe" + categoryFilter));
+  $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe" + categoryFilter));
 const recipies = data;
 </script>

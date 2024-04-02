@@ -47,12 +47,12 @@ const id = route.params.id
 const user = ref({})
 
 const getUser = async () => {
-    const data = await $fetch("http://localhost:5000/admin/user/" + id)
+    const data = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/admin/user/" + id)
     user.value = data
 }
 
 const save = async () => {
-    await $fetch("http://localhost:5000/admin/user/edit/" + user.value.id, {
+    await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/admin/user/edit/" + user.value.id, {
         method: "post",
         body: JSON.stringify(user.value)
     })

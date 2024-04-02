@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="comment in this.comments" :key="comment.id" class="relative">
+    <div v-for="comment in comments" :key="comment.id" class="relative">
       <div class="flex">
         <div class="ml-4 comment-width">
           <div class="font-bold text-md flex items-center justify-between mb-1">

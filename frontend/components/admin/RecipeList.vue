@@ -65,12 +65,12 @@ import Button from '../ui/button/Button.vue';
 const recipies = ref([])
 
 const getRecipies = async () => {
-    const data = await $fetch('http://localhost:5000/recipe/')
+    const data = await $fetch('https://hopeful-vim-417109.oa.r.appspot.com/recipe/')
     recipies.value = data
 }
 
 const deleteRecipe = async (id) => {
-    await $fetch('http://localhost:5000/admin/recipe/delete/' + id, { method: "DELETE" })
+    await $fetch('https://hopeful-vim-417109.oa.r.appspot.com/admin/recipe/delete/' + id, { method: "DELETE" })
     getRecipies()
 }
 
