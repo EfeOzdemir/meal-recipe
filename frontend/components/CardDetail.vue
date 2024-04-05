@@ -57,7 +57,7 @@ export default {
 
     const { data: recipe } = useAsyncData(
       slug,
-      async () => await $fetch("http://localhost:5000/recipe/" + slug)
+      async () => await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/" + slug)
     );
 
     const liked = ref(false);

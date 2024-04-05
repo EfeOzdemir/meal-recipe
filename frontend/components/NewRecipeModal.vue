@@ -83,7 +83,7 @@ const add = async () => {
   formData.append('image', file.value);
 
 
-  await $fetch("http://127.0.0.1:5000/recipe/", {
+  await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/", {
     method: "post",
     headers: { authorization: "Bearer " + store.userToken },
     body: formData
