@@ -1,4 +1,3 @@
-
 from flask import (
     Blueprint, request
 )
@@ -12,7 +11,7 @@ import pymysql
 @bp.route('/users', methods=["GET"])
 def get_users():
     conn = get_db()
-    db = conn.cursor()
+    db = conn.cursor(pymysql.cursors.DictCursor)
     db.execute("""
         SELECT * FROM user
     """)
@@ -27,7 +26,7 @@ def get_users():
 @bp.route('/user/<id>', methods=["GET"])
 def get_user(id):
     conn = get_db()
-    db = conn.cursor()
+    db = conn.cursor(pymysql.cursors.DictCursor)
     db.execute("""
         SELECT * FROM user WHERE id = %s
     """, (id,))
@@ -78,20 +77,20 @@ def delete_user(id):
     conn.commit()
     return {}, 204       
 
-@bp.route('recipe/delete/<id>', methods=["DELETE"])
+@bp.route('/recipe/delete/<id>', methods=["DELETE"])
 def delete_recipe(id):
     conn = get_db()
     db = conn.cursor()
 
-    recipe = db.execute("SELECT * FROM recipe WHERE id = ?", id).fetchone()
+    recipe = db.execute("SELECT * FROM recipe WHERE id = %s", (id,)).fetchone()
     if recipe is None:
         return {
             "message": "Recipe not found",
             "error": "Not found"
         }, 404
     
-    db.execute("DELETE FROM recipe WHERE id = ?", id)
-    db.commit()
+    db.execute("DELETE FROM recipe WHERE id = %s", (id,))
+    conn.commit()
 
     return {"message": "Recipe deleted"}, 200
 
@@ -110,15 +109,15 @@ def create_recipe():
     db = conn.cursor()
 
     try:
-        cursor = db.execute("INSERT INTO recipe (title, content, user_id, category_id, cre_date) VALUES (?, ?, ?, ?, ?)", 
+        db.execute("INSERT INTO recipe (title, content, user_id, category_id, cre_date) VALUES (%s, %s, %s, %s, %s)", 
             (recipe_data.get('title'), recipe_data.get('content'), 3, recipe_data.get('category_id'), datetime.datetime.now()))
-        db.commit()
+        conn.commit()
         
-        id = cursor.lastrowid
-        db.executemany("INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES (?, ?)", [(id, ingredient) for ingredient in recipe_data.get('ingredients')])
+        id = db.lastrowid
+        db.executemany("INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES (%s, %s)", [(id, ingredient) for ingredient in recipe_data.get('ingredients')])
 
-        db.commit()
-    except db.IntegrityError:
+        conn.commit()
+    except pymysql.IntegrityError:
         return {
             "message": "Invalid values.",
             "error": "Conflict"
@@ -140,7 +139,7 @@ def update_recipe(id):
     conn = get_db()
     db = conn.cursor()
 
-    recipe = db.execute("SELECT * FROM recipe WHERE id = ?", id).fetchone()
+    recipe = db.execute("SELECT * FROM recipe WHERE id = %s", (id,)).fetchone()
     if recipe is None:
         return {
             "message": "Recipe not found",
@@ -148,10 +147,10 @@ def update_recipe(id):
         }, 404
 
     try:
-        db.execute("UPDATE recipe SET title = ?, content = ?, category_id = ? WHERE id = ?", 
+        db.execute("UPDATE recipe SET title = %s, content = %s, category_id = %s WHERE id = %s", 
                    (recipe_data.get('title'), recipe_data.get('content'), recipe_data.get('category_id'), id))
-        db.commit()
-    except db.IntegrityError:
+        conn.commit()
+    except pymysql.IntegrityError:
         return {
             "message": "Invalid values.",
             "error": "Conflict"
@@ -162,15 +161,17 @@ def update_recipe(id):
 @bp.route('/infos', methods = ["GET"])
 def get_infos():
     conn = get_db()
-    db = conn.cursor()
-    infos = db.execute("SELECT category.name as category_name, count(*) as count FROM recipe LEFT JOIN category ON category_id = category.id GROUP BY category_id").fetchall()
+    db = conn.cursor(pymysql.cursors.DictCursor)
+    db.execute("SELECT category.name as category_name, count(*) as count FROM recipe LEFT JOIN category ON category_id = category.id GROUP BY category_id")
+    infos = db.fetchall()
 
     return [{"category_name": info["category_name"], "count": info["count"]} for info in infos], 200
 
 @bp.route('/infos/comment', methods = ["GET"])
 def get_recipe_comment_infos():
     conn = get_db()
-    db = conn.cursor()
-    infos = db.execute("SELECT recipe.title as recipe_title, count(*) as count FROM comments LEFT JOIN recipe ON recipe_id = recipe.id GROUP BY recipe_id").fetchall()
+    db = conn.cursor(pymysql.cursors.DictCursor)
+    db.execute("SELECT recipe.title as recipe_title, count(*) as count FROM comments LEFT JOIN recipe ON recipe_id = recipe.id GROUP BY recipe_id")
+    infos = db.fetchall()
 
     return [{"recipe_name": info["recipe_title"], "count": info["count"]} for info in infos], 200
