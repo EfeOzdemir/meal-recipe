@@ -48,7 +48,7 @@ def get_recipe(user, id):
     db = get_db()
     cursor = db.cursor()
     if 'id' in user:
-        cursor.execute("""SELECT recipe.id, title, content, image, category_id, recipe.cre_date, recipe.user_id, username, 
+        cursor.execute("""SELECT recipe.id, title, content, image, category_id, recipe.cre_date, recipe.user_id, username, ingredients,
                         (SELECT COUNT(*) FROM likes WHERE recipe_id = %s) as likes,
                         (SELECT EXISTS(recipe_id) FROM likes WHERE recipe_id = %s and user_id = %s) as isLiked
                         FROM recipe 
@@ -56,7 +56,7 @@ def get_recipe(user, id):
                         WHERE recipe.id = %s
                     """, (id, id, user['id'], id))
     else:
-        cursor.execute("""SELECT recipe.id, title, content, image, category_id, recipe.cre_date, recipe.user_id, username, 
+        cursor.execute("""SELECT recipe.id, title, content, image, category_id, recipe.cre_date, recipe.user_id, username, ingredients,
                         (SELECT COUNT(*) FROM likes WHERE recipe_id = %s) as likes
                         FROM recipe 
                         LEFT JOIN user ON recipe.user_id = user.id
@@ -90,8 +90,7 @@ def create_recipe(user):
     print(recipe_data)
     if not recipe_data:
         return {"message": "Provide required fields.", "error": "Bad Request"}, 400
-
-    print(request.files)
+    
     conn = get_db()
     db = conn.cursor()
 
@@ -100,7 +99,7 @@ def create_recipe(user):
         image_data = image_file.read()
         image_string = base64.b64encode(image_data)
         db.execute("INSERT INTO recipe (title, content, image, ingredients, user_id, category_id, cre_date) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
-                       (recipe_data.get('title'), recipe_data.get('content'), image_string, user['id'], recipe_data.get('category_id'), datetime.datetime.now()))
+                       (recipe_data.get('title'), recipe_data.get('content'), image_string, recipe_data.get("ingredients"), user['id'], recipe_data.get('category_id'), datetime.datetime.now()))
         conn.commit()
     except pymysql.IntegrityError:
         conn.rollback()
