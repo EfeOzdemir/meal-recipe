@@ -46,5 +46,6 @@ const categories = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/rec
 
 const filter = async () => {
   await navigateTo("?c=" + category_id.value);
+  window.location.reload()
 };
 </script>
