@@ -72,16 +72,13 @@ def get_recipe(user, id):
     
     cursor.execute("SELECT comments.id, content, cre_date, user_id, user.username as username FROM comments LEFT JOIN user ON user_id = user.id WHERE recipe_id = %s", (id,))
     comments = cursor.fetchall()
-
-    cursor.execute("SELECT ingredient_name FROM recipe_ingredient WHERE recipe_id = %s", id)
-    ingredients = cursor.fetchall()
     
     return {"id": recipe["id"], "title": recipe["title"], "content": recipe["content"], "image": 'data:image/jpeg;base64,' + recipe["image"], 
             "category_id": recipe["category_id"], "likes": recipe["likes"],
              "user": {"id": recipe["user_id"], "username": recipe["username"]},
              "isLiked": recipe['isLiked'],
              "cre_date": recipe["cre_date"], 
-             "ingredients": [ingredient['ingredient_name'] for ingredient in ingredients],
+             "ingredients": recipe["ingredients"],
              "comments": [{"id": comment["id"], "content": comment["content"], "cre_date": comment["cre_date"], 
                            "user": {"id": comment["user_id"], "username": comment["username"]}} for comment in comments]
             }, 200
@@ -102,17 +99,14 @@ def create_recipe(user):
         image_file = request.files['image']
         image_data = image_file.read()
         image_string = base64.b64encode(image_data)
-        db.execute("INSERT INTO recipe (title, content, image, user_id, category_id, cre_date) VALUES (%s, %s, %s, %s, %s, %s)", 
+        db.execute("INSERT INTO recipe (title, content, image, ingredients, user_id, category_id, cre_date) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
                        (recipe_data.get('title'), recipe_data.get('content'), image_string, user['id'], recipe_data.get('category_id'), datetime.datetime.now()))
-        recipe_id = db.lastrowid
-        for ingredient in recipe_data.get('ingredients'):
-            db.execute("INSERT INTO recipe_ingredient (recipe_id, ingredient_name) VALUES (%s, %s)", (recipe_id, ingredient))
         conn.commit()
     except pymysql.IntegrityError:
         conn.rollback()
         return {"message": "Invalid values.", "error": "Conflict"}, 409
 
-    return {"message": "Recipe created successfully.", "id": recipe_id}, 201
+    return {"message": "Recipe created successfully."}, 201
 
 @bp.route('/update/<id>', methods=["POST"])
 @token_required
