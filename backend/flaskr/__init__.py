@@ -8,7 +8,9 @@ def create_app(test_config=None):
     CORS(app, support_credentials=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        MYSQL_USER="meal-recipe",
+        MYSQL_PASSWORD="mealRecipe",
+        MYSQL_DB="meal-recipe",
     )
 
     if test_config is None:

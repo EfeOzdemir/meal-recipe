@@ -1,19 +1,19 @@
-import sqlite3
-
+import pymysql
 import click
 from flask import current_app, g
 
-
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
+        g.db = pymysql.connect(
+            host="database.cbkiea6yaw92.eu-central-1.rds.amazonaws.com",
+            user="admin",
+            password="password",
+            db="application",
+            charset='utf8mb4',
+            cursorclass=pymysql.cursors.DictCursor
         )
-        g.db.row_factory = sqlite3.Row
 
     return g.db
-
 
 def close_db(e=None):
     db = g.pop('db', None)
@@ -23,10 +23,17 @@ def close_db(e=None):
 
 def init_db():
     db = get_db()
+    cursor = db.cursor()
 
     with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+        # MySQL might not allow multiple commands by default, so split them.
+        sql_commands = f.read().decode('utf8').split(';')
+        for command in sql_commands:
+            if command.strip():
+                cursor.execute(command)
 
+    # It's important to commit changes
+    db.commit()
 
 @click.command('init-db')
 def init_db_command():

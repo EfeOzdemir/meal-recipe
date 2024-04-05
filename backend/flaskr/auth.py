@@ -17,52 +17,38 @@ def register():
     password = request.json.get('password')
 
     if username is None or password is None or email is None:
-        return {
-            "message": "Provide user credentials.",
-            "data": None,
-            "error": "Bad Request"
-        }, 400
+        return {"message": "Provide user credentials.", "data": None, "error": "Bad Request"}, 400
     
     db = get_db()
+    cursor = db.cursor()
     try:
-        db.execute(
-            "INSERT INTO user (username, email, password) VALUES (?, ?, ?)",
-            (username, email, generate_password_hash(password)),
+        cursor.execute(
+            "INSERT INTO user (username, email, password) VALUES (%s, %s, %s)",
+            (username, email, generate_password_hash(password))
         )
         db.commit()
-    except db.IntegrityError:
-        return {
-            "message": "User already exists",
-            "data": None,
-            "error": "Conflict"
-        }, 409
+    except pymysql.IntegrityError:
+        db.rollback()  # Roll back the transaction on error
+        return {"message": "User already exists", "data": None, "error": "Conflict"}, 409
     
-    return {
-        "message": "Registered succesfully.",
-        "data": {"username": username}
-    }, 201
+    return {"message": "Registered succesfully.", "data": {"username": username}}, 201
 
 @bp.route('/login', methods=['POST'])
 @cross_origin(origin='*')
 def login():
-
     username = request.json.get('username')
     password = request.json.get('password')
 
     if username is None or password is None:
-        print(username)
-        print(password)
-        return {
-            "message": "Provide user credentials.",
-            "data": None,
-            "error": "Bad Request"
-        }, 400
+        return {"message": "Provide user credentials.", "data": None, "error": "Bad Request"}, 400
 
     db = get_db()
+    cursor = db.cursor()
     error = None
-    user = db.execute(
-        'SELECT * FROM user WHERE username = ?', (username,)
-    ).fetchone()
+    cursor.execute(
+        'SELECT * FROM user WHERE username = %s', (username,)
+    )
+    user = cursor.fetchone()
 
     if user is None:
         error = 'User not found.'
@@ -70,14 +56,8 @@ def login():
         error = 'Incorrect password.'
 
     if error:
-        return {
-            "message": error,
-            "error": "Unauthorized"
-        }, 401
+        return {"message": error, "error": "Unauthorized"}, 401
 
     token = create_token(user)
 
-    return {
-        "message": "Login succesfull.",
-        "token": token
-    }, 200  
+    return {"message": "Login successful.", "token": token}, 200
