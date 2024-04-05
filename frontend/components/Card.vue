@@ -1,6 +1,6 @@
 <template>
   <div style="cursor: pointer" class="flex flex-col w-[352px] h-[486px] p-4 bg-white border border-[#E6E6E6] rounded-xl">
-    <img loading="lazy" src="https://i.nefisyemektarifleri.com/2023/12/27/pismeyen-tart-pasta.jpg"
+    <img loading="lazy" :src="recipe.image" 
       class="w-[320px] h-[320px] rounded-md" />
     <div
       class="categories flex flex-row justify-center space-x-2 text-center text-[#A5A5A5] font-bold text-xs mt-4"

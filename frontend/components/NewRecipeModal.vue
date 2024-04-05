@@ -31,6 +31,10 @@
             </SelectContent>
           </Select>
         </div>
+        <div class="grid w-full items-center gap-1.5">
+          <Label for="picture">Picture</Label>
+          <Input @change="handleFileChange" accept="image/*" id="picture" type="file" />
+        </div>
       </div>
       <DialogFooter>
         <Button type="submit" @click="add"> Post </Button>
@@ -54,28 +58,35 @@ const store = useUserStore();
 const show = ref(false);
 const recipe = ref({});
 const categories = ref([]);
+const file = ref(null)
 
 const getCategories = async () => {
   const category = await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/category");
   categories.value = category;
 };
 
-const add = async () => {
+const handleFileChange = (event) => {
+  file.value = event.target.files[0]
+}
 
-  if (!recipe.value.title || !recipe.value.content || !recipe.value.category_id) {
+const add = async () => {
+  if (!recipe.value.title || !recipe.value.content || !recipe.value.category_id || !file.value) {
     alert("Fill empty fields.")
     return
   }
 
-  await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/", {
+  const formData = new FormData();
+  formData.append('title', recipe.value.title);
+  formData.append('content', recipe.value.content);
+  formData.append('category_id', recipe.value.category_id);
+  formData.append('ingredients', ["su"]);
+  formData.append('image', file.value);
+
+
+  await $fetch("http://127.0.0.1:5000/recipe/", {
     method: "post",
     headers: { authorization: "Bearer " + store.userToken },
-    body: JSON.stringify({
-      title: recipe.value.title,
-      content: recipe.value.content,
-      category_id: recipe.value.category_id,
-      ingredients: ["su"],
-    }),
+    body: formData
   });
   show.value = false;
   window.location.reload();
