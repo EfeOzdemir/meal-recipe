@@ -19,7 +19,6 @@
       <div class="space-x-2">
         <ClientOnly>
           <font-awesome-icon v-if="!liked" @click="like()" icon="fa-regular fa-heart" />
-
           <font-awesome-icon v-if="liked" @click="like()" icon="fa-solid fa-heart" />
           <font-awesome-icon v-if="!saved" @click="save()" icon="fa-regular fa-bookmark" />
           <font-awesome-icon v-if="saved" @click="save()" icon="fa-solid fa-bookmark" />

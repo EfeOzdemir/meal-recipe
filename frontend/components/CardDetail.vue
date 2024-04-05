@@ -1,7 +1,6 @@
 <template>
   <div class="max-w-[1100px] mx-auto">
-    <img loading="lazy" src="https://i.nefisyemektarifleri.com/2023/12/27/pismeyen-tart-pasta.jpg"
-      class="rounded-md mx-auto mt-8" />
+    <img loading="lazy" :src="recipe?.image" class="rounded-md mx-auto mt-8" />
     <div class="categories flex flex-row justify-center space-x-2 text-center text-[#A5A5A5] font-bold text-xs mt-4">
       {{ recipe?.categories }}
     </div>
@@ -14,7 +13,7 @@
     </h4>
     <h4 class="text-left mt-3 text-lg">
       <span class="font-bold">Creation Date:</span>
-      {{ recipe?.cre_date.split(" ")[0] }}
+      {{ recipe?.cre_date }}
     </h4>
     <div class="flex justify-end">
       <div class="space-x-2">
@@ -28,10 +27,19 @@
       </div>
     </div>
     <div>
-      <span class="font-bold text-xl">{{ recipe?.title }} Nasıl Yapılır?</span>
-      <br />
+      <span class="font-bold text-xl">Instructions</span>
       <br />
       {{ recipe?.content }}
+      <br />
+      <br />
+      <span class="font-bold text-xl">Ingredients</span>
+      <ul>
+        <li v-for="i in recipe?.ingredients?.split(',')">
+          <span> -> {{ i }}</span>
+        </li>
+      </ul>
+      <br />
+      <br />
     </div>
     <CommentList :comments="recipe?.comments" />
     <ClientOnly>
@@ -49,10 +57,8 @@ export default {
 
     const { data: recipe } = useAsyncData(
       slug,
-      async () => await $fetch("https://hopeful-vim-417109.oa.r.appspot.com/recipe/" + slug)
+      async () => await $fetch("http://localhost:5000/recipe/" + slug)
     );
-
-    console.log(recipe.value)
 
     const liked = ref(false);
     const saved = ref(false);
